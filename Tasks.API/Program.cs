@@ -1,4 +1,6 @@
 
+using Tasks.API.Models;
+
 namespace Tasks.API
 {
     public class Program
@@ -13,6 +15,8 @@ namespace Tasks.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddScoped<IGenericRepository<Models.Task>, InMemoryGenericRepository<Models.Task>>();
 
             var app = builder.Build();
 
