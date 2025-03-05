@@ -15,6 +15,12 @@ namespace Tasks.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddCors(options => options.AddDefaultPolicy(p =>
+            {
+                p.AllowAnyHeader();
+                p.AllowAnyMethod();
+                p.AllowAnyOrigin();
+            }));
 
             builder.Services.AddScoped<IGenericRepository<Models.Task>, InMemoryTaskRepository>();
 
@@ -30,7 +36,7 @@ namespace Tasks.API
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
+            app.UseCors();
 
             app.MapControllers();
 
