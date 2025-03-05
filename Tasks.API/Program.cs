@@ -16,7 +16,7 @@ namespace Tasks.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddScoped<IGenericRepository<Models.Task>, InMemoryGenericRepository<Models.Task>>();
+            builder.Services.AddScoped<IGenericRepository<Models.Task>, InMemoryTaskRepository>();
 
             var app = builder.Build();
 
