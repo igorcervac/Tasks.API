@@ -1,8 +1,8 @@
 ﻿namespace Tasks.API.Models
 {
-    public class InMemoryGenericRepository<T> : IGenericRepository<T> where T : IEntity
+    public abstract class InMemoryGenericRepository<T> : IGenericRepository<T> where T : IEntity
     {
-        public static List<T> _objects = new List<T>();
+        protected static List<T> _objects = new List<T>();
 
         public async Task<T> AddAsync(T entity)
         {
@@ -27,9 +27,6 @@
             return await System.Threading.Tasks.Task.FromResult(@object);
         }
 
-        public async System.Threading.Tasks.Task UpdateAsync(T entity)
-        {
-            await System.Threading.Tasks.Task.Delay(0);
-        }
+        public abstract System.Threading.Tasks.Task UpdateAsync(T entity);
     }
 }
