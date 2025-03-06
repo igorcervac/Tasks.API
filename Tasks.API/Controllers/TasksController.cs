@@ -18,9 +18,9 @@ namespace Tasks.API.Controllers
 
         // GET: api/<TasksController>
         [HttpGet]
-        public async Task<IEnumerable<Models.Task>> Get()
+        public IEnumerable<Models.Task> Get()
         {
-            return await _repository.GetAllAsync();
+            return _repository.GetAll();
         }
 
         // GET api/<TasksController>/5

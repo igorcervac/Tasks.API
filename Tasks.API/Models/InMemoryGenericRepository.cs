@@ -6,6 +6,8 @@
 
         public async Task<T> AddAsync(T entity)
         {
+            var maxId = _objects.Any() ? _objects.Max(x => x.Id) : 0;
+            entity.Id = maxId + 1;
             _objects.Add(entity);
             return await System.Threading.Tasks.Task.FromResult(entity);
         }
@@ -16,9 +18,9 @@
             await System.Threading.Tasks.Task.Delay(0);
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public IEnumerable<T> GetAll()
         {
-            return await System.Threading.Tasks.Task.FromResult(_objects);
+            return _objects;
         }
 
         public async Task<T> GetByIdAsync(int id)
