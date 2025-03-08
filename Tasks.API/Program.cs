@@ -22,7 +22,8 @@ namespace Tasks.API
                 p.AllowAnyOrigin();
             }));
 
-            builder.Services.AddScoped<IGenericRepository<Models.Task>, InMemoryTaskRepository>();
+            builder.Services.AddScoped<IRepository<Models.Task>, InMemoryTaskRepository>();
+            builder.Services.AddScoped<IReadonlyRepository<Models.State>, InMemoryReadonlyRepository<Models.State>>();
 
             var app = builder.Build();
 

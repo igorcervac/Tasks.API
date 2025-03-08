@@ -1,6 +1,6 @@
 ﻿namespace Tasks.API.Models
 {
-    public class InMemoryTaskRepository : InMemoryGenericRepository<Task>
+    public class InMemoryTaskRepository : InMemoryRepository<Task>, IRepository<Task>
     {
         public override async System.Threading.Tasks.Task UpdateAsync(Task entity)
         {
