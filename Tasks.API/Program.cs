@@ -23,7 +23,7 @@ namespace Tasks.API
             }));
 
             builder.Services.AddScoped<IRepository<Models.Task>, InMemoryTaskRepository>();
-            builder.Services.AddScoped<IReadonlyRepository<Models.State>, InMemoryReadonlyRepository<Models.State>>();
+            builder.Services.AddScoped<IReadonlyRepository<Models.State>, InMemoryStateRepository>();
 
             var app = builder.Build();
 
