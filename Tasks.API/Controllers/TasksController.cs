@@ -9,47 +9,47 @@ namespace Tasks.API.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        private readonly IGenericRepository<Models.Task> _repository;
+        private readonly IRepository<Models.Task> _taskRepository;
 
-        public TasksController(IGenericRepository<Models.Task> repository)
+        public TasksController(IRepository<Models.Task> repository)
         {
-            _repository = repository ?? throw new ArgumentException();
+            _taskRepository = repository ?? throw new ArgumentNullException();
         }
 
         // GET: api/<TasksController>
         [HttpGet]
         public IEnumerable<Models.Task> Get()
         {
-            return _repository.GetAll();
+            return _taskRepository.GetAll();
         }
 
         // GET api/<TasksController>/5
         [HttpGet("{id}")]
         public async Task<Models.Task> Get(int id)
         {
-            return await _repository.GetByIdAsync(id);
+            return await _taskRepository.GetByIdAsync(id);
         }
 
         // POST api/<TasksController>
         [HttpPost]
         public async Task<Models.Task> Post([FromBody] Models.Task task)
         {
-            return await _repository.AddAsync(task);
+            return await _taskRepository.AddAsync(task);
         }
 
         // PUT api/<TasksController>/5
         [HttpPut("{id}")]
         public async System.Threading.Tasks.Task Put(int id, [FromBody] Models.Task task)
         {
-            _repository.UpdateAsync(task);
+            await _taskRepository.UpdateAsync(task);
         }
 
         // DELETE api/<TasksController>/5
         [HttpDelete("{id}")]
         public async System.Threading.Tasks.Task Delete(int id)
         {
-            var task = await _repository.GetByIdAsync(id);
-            _repository.DeleteAsync(task);
+            var task = await _taskRepository.GetByIdAsync(id);
+            await _taskRepository.DeleteAsync(task);
         }
     }
 }
