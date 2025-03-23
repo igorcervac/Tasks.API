@@ -18,38 +18,66 @@ namespace Tasks.API.Controllers
 
         // GET: api/<TasksController>
         [HttpGet]
-        public IEnumerable<Models.Task> Get()
+        public ActionResult<IEnumerable<Models.Task>> Get()
         {
-            return _taskRepository.GetAll();
+            return Ok(_taskRepository.GetAll());
         }
 
         // GET api/<TasksController>/5
         [HttpGet("{id}")]
-        public async Task<Models.Task> Get(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            return await _taskRepository.GetByIdAsync(id);
+            var task = await _taskRepository.GetByIdAsync(id);
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(task);
         }
 
         // POST api/<TasksController>
         [HttpPost]
-        public async Task<Models.Task> Post([FromBody] Models.Task task)
+        public async Task<ActionResult<Models.Task>> Post([FromBody] Models.Task task)
         {
-            return await _taskRepository.AddAsync(task);
+            var createdTask = await _taskRepository.AddAsync(task);
+            return CreatedAtAction(nameof(GetById), new {id =  createdTask.Id}, createdTask);
         }
 
         // PUT api/<TasksController>/5
         [HttpPut("{id}")]
-        public async System.Threading.Tasks.Task Put(int id, [FromBody] Models.Task task)
+        public async Task<IActionResult> Put(int id, [FromBody] Models.Task task)
         {
+            if (id != task.Id)
+            {
+                return BadRequest();
+            }
+
+            var taskToUpdate = await _taskRepository.GetByIdAsync(id);
+
+            if (taskToUpdate == null)
+            {
+                return NotFound(); 
+            }
+
             await _taskRepository.UpdateAsync(task);
+
+            return NoContent();
         }
 
         // DELETE api/<TasksController>/5
         [HttpDelete("{id}")]
-        public async System.Threading.Tasks.Task Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var task = await _taskRepository.GetByIdAsync(id);
+            if (task == null)
+            {
+                return NotFound();
+            }
+
             await _taskRepository.DeleteAsync(task);
+
+            return NoContent();
         }
     }
 }

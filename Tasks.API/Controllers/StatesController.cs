@@ -18,16 +18,22 @@ namespace Tasks.API.Controllers
 
         // GET: api/<StatesController>
         [HttpGet]
-        public IEnumerable<State> Get()
+        public ActionResult<IEnumerable<State>> Get()
         {
-            return _stateRepository.GetAll();
+            return Ok(_stateRepository.GetAll());
         }
 
         // GET api/<StatesController>/5
         [HttpGet("{id}")]
-        public async Task<State> Get(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            return await _stateRepository.GetByIdAsync(id);
+            var state = await _stateRepository.GetByIdAsync(id);
+            if (state == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(state);
         }        
     }
 }
